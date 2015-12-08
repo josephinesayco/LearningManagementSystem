@@ -1,0 +1,21 @@
+h1 Students
+
+div.pull-right
+  =link_to "Add Student", new_student_path, class: "btn btn-primary btn-lg"
+table.table
+  thead
+    tr
+      th
+        = "Student Number"
+      th
+        = "Full Name"
+      th
+
+  tbody
+    - @students.each do |stud|
+      tr
+        td
+          = stud.student_number
+        td
+          = stud.fullname
+

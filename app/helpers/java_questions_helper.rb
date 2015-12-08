@@ -1,0 +1,2 @@
+module JavaQuestionsHelper
+end

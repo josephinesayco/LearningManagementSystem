@@ -1,0 +1,26 @@
+h3
+  ="Java Result"
+
+
+- tags = Questionnaire::TAGS
+div.table-responsive
+  table.table
+    thead
+      tr
+        th Java Topic
+        th Your Score
+
+    tbody
+      - tags.each do |num, val|
+        tr
+          td = val
+          td = @scores[num]
+
+br
+br
+div
+  = "Your total score is #{@total_score}"
+
+
+
+

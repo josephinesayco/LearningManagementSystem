@@ -1,0 +1,17 @@
+I"©(function() {
+  jQuery(function($) {
+    var demo_modal_completed;
+    $('#user_course').change(function(e) {
+      return alert("s");
+    });
+    demo_modal_completed = document.cookie.replace(/(?:(?:^|.*;\s*)finished_questionnaire_modal\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (demo_modal_completed === "") {
+      return $.ajax({
+        type: "GET",
+        url: "/learning_systems"
+      });
+    }
+  });
+
+}).call(this);
+:ET

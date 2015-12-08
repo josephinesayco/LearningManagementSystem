@@ -1,0 +1,19 @@
+I"ë(function() {
+  jQuery(function($) {
+    var demo_modal_completed;
+    $('.chosen-select').chosen({
+      allow_single_deselect: true,
+      no_results_text: 'No results matched',
+      width: '200px'
+    });
+    demo_modal_completed = document.cookie.replace(/(?:(?:^|.*;\s*)finished_questionnaire_modal\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (demo_modal_completed === "") {
+      return $.ajax({
+        type: "GET",
+        url: "/learning_systems"
+      });
+    }
+  });
+
+}).call(this);
+:ET

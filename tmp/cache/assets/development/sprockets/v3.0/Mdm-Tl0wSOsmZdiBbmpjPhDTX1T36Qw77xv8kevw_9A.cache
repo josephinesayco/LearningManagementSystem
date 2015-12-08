@@ -1,0 +1,32 @@
+I"¹(function() {
+  jQuery(function($) {
+    var demo_modal_completed;
+    $(document).ready(function() {
+      debugger;
+      if ($('#user_course').value === "IT") {
+        $('#user_section option:gt(3)').hide();
+      }
+    });
+    $('#user_course').change(function(e) {
+      var index, sec_options;
+      sec_options = $('#user_section option');
+      $(sec_options).show();
+      if (this.value === "CT" || this.value === "CS") {
+        $('#user_section option:gt(3)').hide();
+        index = $("#user_section option:selected").index();
+        if (index > 3) {
+          return $("#user_section option:first").attr('selected', 'selected');
+        }
+      }
+    });
+    demo_modal_completed = document.cookie.replace(/(?:(?:^|.*;\s*)finished_questionnaire_modal\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (demo_modal_completed === "") {
+      return $.ajax({
+        type: "GET",
+        url: "/learning_systems"
+      });
+    }
+  });
+
+}).call(this);
+:ET

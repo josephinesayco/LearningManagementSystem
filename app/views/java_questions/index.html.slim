@@ -1,0 +1,19 @@
+h3
+  = "Java Questions"
+
+
+= form_tag java_questions_path, name: :java_questions, method: :post, :id => "java_questions", :class => "java-questions-form" do
+  ol
+    - @questions.each do |question|
+        li
+          = raw(question.question.gsub(/\n/, '<br/>').html_safe)
+          - choices = question.questionnaire_items
+          div.choices
+            - choices.each do |choice|
+              label.radio
+                = radio_button_tag "java_questions[#{question.id}]", choice.id
+                | #{choice.item}
+
+  .center
+      = link_to "Save", '#', :class => "form-submit-btn btn btn-sm btn-primary bolder all-rounded width-20", data: {form_id: "java_questions"}
+

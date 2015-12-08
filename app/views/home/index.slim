@@ -1,0 +1,29 @@
+
+.panel.panel-default
+    .panel-heading
+      h3.panel-title
+        = "Result"
+    .panel-body
+      div
+        = "Based on the data that you have provided into the system, the recommender algorithm automatically generated a prediction regarding your possible final grade in Java Programming."
+      div
+        = "Please click PREDICT button to view result..."
+
+      div.text-center
+        = link_to "PREDICT", "#", data: { toggle: "modal", target: "#result-modal" }, id: 'predict', class: "btn btn-info"
+
+      .modal.fade#result-modal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h4.modal-title id=("result")  Result
+            .modal-body
+              - if @passed
+                = "Congratulations! You may now press EXIT to leave this page. But if you still opt to take the test, just click PROCEED"
+              - else
+                = "To enhance your learning capabilities and promote your Java Programming skills, you are required to take a series of examinations now... Click PROCEED to start."
+
+            .modal-footer
+              =link_to "PROCEED", learning_systems_path, class: "btn btn-primary"
+              -if @passed
+                =link_to "EXIT", destroy_user_session_path, method: :delete, class: "btn btn-primary"

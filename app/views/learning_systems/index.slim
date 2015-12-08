@@ -1,0 +1,19 @@
+= form_tag learning_systems_path, name: :questions, remote: true, method: :post, :id => "learning_questions", :class => "learning-system-form" do
+	ol
+		- Questions::QUESTIONNAIRES.each do |key, questions|
+			/ li
+			/	= raw(q.question.gsub(/\n/, '<br/>').html_safe)
+			- questions.each do |question, choices|
+				li
+					= raw(question.gsub(/\n/, '<br/>').html_safe)
+					// = label_tag key, raw(question.gsub(/\n/, '<br/>')), class: "form-label"
+					div.choices
+						- choices.each_with_index do |choice, i|
+							label.radio
+
+								= radio_button_tag "questions[#{key}]", i
+								| #{choice}
+
+	.center
+    	= link_to "Save", '#', :class => "form-submit-btn btn btn-sm btn-primary bolder all-rounded width-20", data: {form_id: "learning_questions"}
+

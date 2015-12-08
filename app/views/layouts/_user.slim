@@ -1,0 +1,10 @@
+ul
+
+	li.green
+	  a.dropdown-toggle.with-tooltip data-toggle="dropdown" href="#" title="Profile"
+	    
+
+	    i.icon-caret-down
+	  ul.user-menu.pull-right.dropdown-menu.dropdown-yellow.dropdown-caret.dropdown-close
+	    li
+	      = link_to "Sign Out", destroy_user_session_path, :method => :delete

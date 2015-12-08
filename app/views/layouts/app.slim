@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    =csrf_meta_tag
+
+    = javascript_include_tag "application"
+
+    = stylesheet_link_tag "application", "home"
+
+  /ace styles
+  body
+
+    nav.navbar.navbar-default
+      .container-fluid
+        /! Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed aria-expanded="false" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand href="/"  Course Content Recommender System
+        /! Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              = link_to "Sign Up", new_user_registration_path
+
+
+
+    div.container
+      = show_flash_messages
+
+      == yield
+
