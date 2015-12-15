@@ -1,2 +1,15 @@
-h1 Students#edit
-p Find me in app/views/students/edit.html.slim
+h3 Edit Student
+div.space-8
+= form_for @student, :method => :put, :html => {id: "frm-edit-student", class: "form-horizontal", role: "form" } do |f|
+  .form-group
+    = f.label :student_number, :class => "col-sm-3 control-label no-padding-right"
+    .col-sm-4
+      = f.text_field :student_number, :class => "form-control input-xs", :autofocus => "true"
+  .form-group
+    = f.label :fullname, :class => "col-sm-3 control-label no-padding-right"
+    .col-sm-4
+      = f.text_field :fullname, :class => "form-control input-xs", :autofocus => "true"
+
+  .form-group.text-center.col-sm-10
+    = f.submit "Update", class: "btn btn-success"
+

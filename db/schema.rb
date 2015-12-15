@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151209123806) do
+ActiveRecord::Schema.define(version: 20151214041806) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 20151209123806) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "java_timers", force: :cascade do |t|
+    t.integer  "student_id", limit: 4
+    t.datetime "start_at"
+    t.boolean  "lock",       limit: 1
+    t.boolean  "extended",   limit: 1
+    t.boolean  "finished",   limit: 1
+  end
+
   create_table "questionnaire_items", force: :cascade do |t|
     t.string   "item",             limit: 255
     t.boolean  "is_answer",        limit: 1,   default: false
@@ -63,12 +71,31 @@ ActiveRecord::Schema.define(version: 20151209123806) do
   end
 
   create_table "students", force: :cascade do |t|
-    t.integer  "student_number", limit: 4
+    t.string   "student_number", limit: 255
     t.string   "fullname",       limit: 255
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.integer  "teacher_id",     limit: 4
     t.boolean  "lock",           limit: 1,   default: false
+    t.string   "act_ref",        limit: 255
+    t.string   "sent_int",       limit: 255
+    t.string   "vis_vrb",        limit: 255
+    t.string   "seq_glo",        limit: 255
+    t.boolean  "will_passed",    limit: 1
+    t.integer  "tag_1",          limit: 4
+    t.integer  "tag_2",          limit: 4
+    t.integer  "tag_3",          limit: 4
+    t.integer  "tag_4",          limit: 4
+    t.integer  "tag_5",          limit: 4
+    t.integer  "tag_6",          limit: 4
+    t.integer  "tag_7",          limit: 4
+    t.integer  "tag_8",          limit: 4
+    t.integer  "tag_9",          limit: 4
+    t.integer  "tag_10",         limit: 4
+    t.integer  "tag_11",         limit: 4
+    t.integer  "tag_12",         limit: 4
+    t.integer  "tag_13",         limit: 4
+    t.integer  "tag_14",         limit: 4
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,6 +125,7 @@ ActiveRecord::Schema.define(version: 20151209123806) do
     t.string   "email",                  limit: 255, default: "",     null: false
     t.string   "type",                   limit: 255, default: "User", null: false
     t.boolean  "is_passed",              limit: 1
+    t.boolean  "passed_java",            limit: 1
   end
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

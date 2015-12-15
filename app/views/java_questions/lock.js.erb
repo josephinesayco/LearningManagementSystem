@@ -1,0 +1,10 @@
+var html = "<%= escape_javascript(render :file => 'java_questions/enter_password') %>";
+var message = "Time's up. Please ask you're teacher to assist you."
+
+$.lms_modal(message, html, {
+  additionalModalClasses: ["enter-password"],
+  okButtonAdditionalClasses: ["enter-password"],
+  onInit: function(modal) {
+    modal.find('.modal-footer').remove()
+  }
+})

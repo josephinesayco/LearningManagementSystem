@@ -1,7 +1,8 @@
 doctype html
 html
   head
-    =csrf_meta_tag
+    title.white Performance Prediction Model with Course-content Recommendation System
+    = csrf_meta_tag
 
     = javascript_include_tag "application"
 
@@ -10,7 +11,7 @@ html
   /ace styles
   body
 
-    nav.navbar.navbar-default
+    nav.navbar.navbar-default.navbar-fixed-top
       .container-fluid
         /! Brand and toggle get grouped for better mobile display
         .navbar-header
@@ -19,17 +20,18 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand href="/"  Course Content Recommender System
+          a.navbar-brand href="/"  Performance Prediction Model with Course-content Recommendation System
         /! Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             li
-              = link_to "Sign Up", new_user_registration_path
-
+              - if controller_name=="sessions"
+                = link_to "Sign Up", new_user_registration_path, class: "white"
+              -elsif controller_name == "registrations"
+                = link_to "Log-in", user_session_path, class: "white"
 
 
     div.container
       = show_flash_messages
-
       == yield
 

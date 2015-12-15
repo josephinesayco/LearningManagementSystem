@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   devise_scope :teachers do
     authenticated :teacher do
-      root 'students#index', as: :authenticated_teacher_root
+      root 'teachers#home', as: :authenticated_teacher_root
     end
   end
 
@@ -23,13 +23,25 @@ Rails.application.routes.draw do
   root "devise/sessions#new"
 
   resources :learning_systems, only: [:index, :create]
-  resources :java_questions, only: [:index, :create]
+  resources :java_questions, only: [:index, :create] do
+    collection do
+      get 'result'
+      get 'lock'
+      get 'unlock'
+      post :validate_teacher_password
+    end
+
+
+  end
 
   resources :teachers do
     collection do
       get :students
       get :prediction_result
-      get :assessment_result
+      get :java_assessment_result
+      get :ils_evaluation_result
+      get :home
+      delete :destroy_all
     end
   end
   resources :students

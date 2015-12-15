@@ -1,0 +1,72 @@
+h3 ILS Evaluation Result
+br
+.row
+  div
+    = form_for @q, url: ils_evaluation_result_teachers_path, :html => {class: "form-horizontal", role: "form", method: :get } do |f|
+
+      .row.form-group
+        div.col-xs-2
+          = f.label :course, "Course: "
+          = f.select :user_course_eq, User::COURSES_SEARCH, html: {class:'form-control'}
+          br
+          = f.label :section, "Section: "
+          = f.select :user_section_eq, Hash[User::SECTION.collect{|v| [v, v]}], html: {class:'form-  control'}
+        div.col-xs-2
+          = f.label :act_ref_eq, "Active/Reflective: "
+          br
+          = f.radio_button :act_ref_eq, "active", checked: @q.act_ref_eq == "active"
+          span Active
+          br
+          = f.radio_button :act_ref_eq, "reflective", checked: @q.act_ref_eq == "reflective"
+          span Reflective
+        div.col-xs-2
+          = f.label :sent_int_eq, "Sensing/Intuitive: "
+          br
+          = f.radio_button :sent_int_eq, "sensing", checked: @q.sent_int_eq == "sensing"
+          span Sensing
+          br
+          = f.radio_button :sent_int_eq, "intuitive", checked: @q.sent_int_eq == "intuitive"
+          span Intuitive
+        div.col-xs-2
+          = f.label :vis_vrb_eq, "Visual/Verbal: "
+          br
+          = f.radio_button :vis_vrb_eq, "visual", checked: @q.vis_vrb_eq == "visual"
+          span Visual
+          br
+          = f.radio_button :vis_vrb_eq, "verbal", checked: @q.vis_vrb_eq == "verbal"
+          span Verbal
+        div.col-xs-2
+          = f.label :seq_glo_eq, "Global/Sequential: "
+          br
+          = f.radio_button :seq_glo_eq, "sequential", checked: @q.seq_glo_eq == "sequential"
+          span Sequential
+          br
+          = f.radio_button :seq_glo_eq, "global", checked: @q.seq_glo_eq == "global"
+          span Global
+        div.col-xs-2
+          = f.submit "Search"
+          br
+          br
+          strong
+           = "Total: #{@students.count} Students"
+      br
+
+
+  div.col-xs-3
+
+
+table.table.table-striped
+  thead
+    tr
+      th
+        = "Student Number"
+      th
+        = "Full Name"
+
+  tbody
+    - @students.each do |stud|
+      tr
+        td
+          = stud.student_number
+        td
+          = stud.fullname

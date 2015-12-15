@@ -1,19 +1,23 @@
 h3
   = "Java Questions"
+  div.pull-right
+    span#until2d.countdown data-until="#{@timer_until}"
 
+br
 
 = form_tag java_questions_path, name: :java_questions, method: :post, :id => "java_questions", :class => "java-questions-form" do
   ol
-    - @questions.each do |question|
+    - @questions.each_with_index do |question, index|
         li
           = raw(question.question.gsub(/\n/, '<br/>').html_safe)
-          - choices = question.questionnaire_items
-          div.choices
+          - choices = question.questionnaire_items.order("RAND()")
+          div.choices id="#{index}"
             - choices.each do |choice|
               label.radio
                 = radio_button_tag "java_questions[#{question.id}]", choice.id
                 | #{choice.item}
 
   .center
-      = link_to "Save", '#', :class => "form-submit-btn btn btn-sm btn-primary bolder all-rounded width-20", data: {form_id: "java_questions"}
+      = link_to "Save", '#', :class => "form-submit-btn btn btn-sm btn-success bolder all-rounded width-20", data: {form_id: "java_questions"}
 
+//What is the stored in the object obj in following lines of code? boxobj;

@@ -11,6 +11,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
+    if resource.is_a?(User) && resource.persisted?
+      status = resource.status_passed?
+      resource.update_attribute(:is_passed, status)
+
+      if student = resource.student
+        student.update_attribute(:will_passed, status)
+      end
+    end
 
 
   end

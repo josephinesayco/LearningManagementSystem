@@ -1,22 +1,23 @@
 
-.panel.panel-default
+.panel.panel-success
     .panel-heading
       h3.panel-title
         = "Result"
     .panel-body
       div
         = "Based on the data that you have provided into the system, the recommender algorithm automatically generated a prediction regarding your possible final grade in Java Programming."
+      br
       div
         = "Please click PREDICT button to view result..."
-
+      br
       div.text-center
-        = link_to "PREDICT", "#", data: { toggle: "modal", target: "#result-modal" }, id: 'predict', class: "btn btn-info"
+        = link_to "PREDICT", "#", data: { toggle: "modal", target: "#result-modal", backdrop: 'static', keyboard: false }, id: 'predict', class: "btn btn-success"
 
       .modal.fade#result-modal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
         .modal-dialog
           .modal-content
             .modal-header
-              h4.modal-title id=("result")  Result
+              h4.modal-title id=("result")  Prediction
             .modal-body
               - if @passed
                 = "Congratulations! You may now press EXIT to leave this page. But if you still opt to take the test, just click PROCEED"
@@ -24,6 +25,6 @@
                 = "To enhance your learning capabilities and promote your Java Programming skills, you are required to take a series of examinations now... Click PROCEED to start."
 
             .modal-footer
-              =link_to "PROCEED", learning_systems_path, class: "btn btn-primary"
+              =link_to "PROCEED", learning_systems_path, class: "btn btn-success"
               -if @passed
-                =link_to "EXIT", destroy_user_session_path, method: :delete, class: "btn btn-primary"
+                =link_to "EXIT", destroy_user_session_path, method: :delete, class: "btn btn-danger"

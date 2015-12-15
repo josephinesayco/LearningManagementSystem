@@ -57,9 +57,14 @@ gem 'activeadmin', github: 'activeadmin/activeadmin'
 # Just added
 gem "slim-rails"
 gem 'thin'
-gem 'pg'
+# gem 'pg'
 gem 'pry-rails'
 gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
+gem 'countdown'
+gem 'will_paginate', '~> 3.0.6'
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 # gem 'chosen-rails'
 # gem 'compass-rails', github: 'Compass/compass-rails', branch: '2-0-stable'

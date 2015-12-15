@@ -9,8 +9,8 @@ class AddFullnameGenderAgeCourseYrSecPriorProgAndSelfAssessmentToUser < ActiveRe
     add_column :users, :yr_level, :integer
     add_column :users, :section, :string
     add_column :users, :schedule, :string
-    add_column :users, :prog_1, :double
-    add_column :users, :prog_2, :double
-    add_column :users, :prog_3, :double
+    add_column :users, :prog_1, :float
+    add_column :users, :prog_2, :float
+    add_column :users, :prog_3, :float
   end
 end

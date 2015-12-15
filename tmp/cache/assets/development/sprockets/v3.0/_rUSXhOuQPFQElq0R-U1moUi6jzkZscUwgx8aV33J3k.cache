@@ -1,0 +1,65 @@
+I"ú(function() {
+  jQuery(function($) {
+    var demo_modal_completed, liftoffTime;
+    $.prog_flash = function(type, message, container_cls) {
+      var html;
+      if (container_cls == null) {
+        container_cls = '.page-content';
+      }
+      html = "<div class='alert-area container'>\n  <div class='" + type + "'>\n    <button class='close' data-dismiss='alert' type='button'>\n    <i class='icon-remove'></i>\n    </button>\n    " + message + "\n  </div>\n</div>";
+      $('.alert-area').remove();
+      $(html).prependTo(container_cls).fadeOut(100000);
+      return $('body').animate({
+        scrollTop: $(html).offset().top
+      }, 500);
+    };
+    $(document).on('click', 'a.form-submit-btn, btn.form-submit-btn', function(e) {
+      var form, formId, idNum, idNumbers, submitType;
+      if ($(this).hasClass("form-submit-btn-no-disable")) {
+        return;
+      }
+      formId = $(this).data('form-id');
+      form = $("form#" + formId);
+      submitType = $(this).data('submit-type');
+      if ($("form ol li input[type='radio']:checked").length >= $("form .choices").length) {
+        $(e.target).addClass('disabled');
+        if (submitType) {
+          $('<input>').attr({
+            type: 'hidden',
+            name: 'submit_type',
+            value: submitType
+          }).appendTo(form);
+        }
+        return form.submit();
+      } else {
+        idNum = 0;
+        idNumbers = [];
+        $("form ol .choices").each(function() {
+          if ($(this).find("input[type='radio']:checked").length <= 0) {
+            idNum = parseInt($(this).attr("id")) + 1;
+            return idNumbers.push(idNum);
+          }
+        });
+        $.prog_flash('alert alert-danger', "You must answer all the following questions. Please check the following item numbers " + idNumbers.join(", "));
+        return e.preventDefault();
+      }
+    });
+    demo_modal_completed = "";
+    liftoffTime = new Date($('#until2d').data("until"));
+    $('#until2d').countdown({
+      until: liftoffTime,
+      format: "MS",
+      onExpiry: function() {
+        return $.ajax({
+          type: "GET",
+          url: "/java_questions/lock"
+        });
+      }
+    });
+    return $('.login-selector input[name=for-login]').change(function() {
+      return alert(this.value);
+    });
+  });
+
+}).call(this);
+:ET

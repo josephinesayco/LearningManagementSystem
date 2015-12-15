@@ -1,0 +1,28 @@
+h3 Tasks
+br
+
+div.row.xl-button
+  .col-xs-3
+    = link_to students_path, class: "btn btn-success" do
+      = image_tag("student.png", width: "100", height: "100")
+      br
+      br
+      strong = "Manage Student"
+  .col-xs-3
+    = link_to prediction_result_teachers_path, class: "btn btn-success" do
+      = image_tag("student.png", width: "100", height: "100")
+      br
+      br
+      strong = "Prediction Results"
+  .col-xs-3
+    = link_to ils_evaluation_result_teachers_path, class: "btn btn-success" do
+      = image_tag("assessment.png", width: "100", height: "100")
+      br
+      br
+      strong = "ILS Evaluation Results"
+  .col-xs-3
+    = link_to java_assessment_result_teachers_path, class: "btn btn-success" do
+      = image_tag("result.png", width: "100", height: "100")
+      br
+      br
+      strong = ("Java Assessment <br /> Results").html_safe

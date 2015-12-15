@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username, :type]
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
+  belongs_to :student, foreign_key: "student_number", primary_key: "student_number"
   ALLOWED_AGE = {
   	"< 16" => "15",
   	"16"   => "16",
@@ -19,6 +21,12 @@ class User < ActiveRecord::Base
   	"Computer Science" => "CS",
   	"Computer Technology" => "CT",
   	"Information Technology"  => "IT"
+  }
+
+  COURSES_SEARCH = {
+    "CS" => 0,
+    "Comp Tech" => 1,
+    "IT"  => 2
   }
 
   YR_LEVEL = {
@@ -41,9 +49,21 @@ class User < ActiveRecord::Base
 
   scope :student, ->(){ where(type: "User") }
 
+  #TODO comment just to test, must remove after
   validates :student_number, uniqueness: true, presence: true
-  validates :username, presence: true
+  validates :username, presence: true, uniqueness: true
   validate :student_list?
+
+  # before_validation :add_info
+
+  # def add_info
+  #   user_count = User.count
+  #   self.fullname = "Student #{user_count}"
+  #   self.username = "student_#{user_count}"
+  #   self.student_number = "2015-ES-#{user_count}"
+  #   self.password = "password"
+  #   self.password_confirmation = "password"
+  # end
 
 	def email_required?
 		false
@@ -55,31 +75,27 @@ class User < ActiveRecord::Base
 
   def status_passed?
     user = self
+
     if user.prog_2 <= 2.25
       if user.schedule == "am" || user.schedule == "pm"
         if user.prog_3 <= 1.75
           status = "passed"
-        end
-        if user.prog_3 > 1.75
+        else #user.prog_3 > 1.75
           if user.prog_2 <= 1.753
             if user.prog_1 <= 2.5
               status = "passed"
-            end
-            if user.prog_1 > 2.5
+            else# user.prog_1 > 2.5
               if user.age <= 18
                 status = "passed"
-              end
-              if user.age > 18
+              else# user.age > 18
                 if user.prog_1 <= 3
                   status = "passed"
-                end
-                if user.prog_1 > 3
+                else# user.prog_1 > 3
                   status = "failed"
                 end
               end
             end
-          end
-          if user.prog_2 > 1.753
+          else# user.prog_2 > 1.753
             if user.prog_1 <= 2
               if user.schedule == "am"
                 status = "passed"
@@ -94,8 +110,7 @@ class User < ActiveRecord::Base
                   status = "passed"
                 end
               end
-            end
-            if user.prog_1 > 2
+            else# user.prog_1 > 2
               if user.prog_2 <= 2
                 if user.prog_3 <= 2.75
                   if user.schedule == "am"
@@ -103,19 +118,17 @@ class User < ActiveRecord::Base
                   else
                     status = "failed"
                   end
-                end
-                if user.prog_3 > 2.75
+                else # user.prog_3 > 2.75
                   status = "failed"
                 end
-              end
-              if user.prog_2 > 2
+              else# user.prog_2 > 2
                 status = "failed"
               end
             end
           end
         end
-      end
-      if user.schedule == "night"
+
+      else#if night
         if user.prog_3 <= 2.25
           # Not prog 2???
           if user.prog_3 <= 1.5
@@ -179,8 +192,7 @@ class User < ActiveRecord::Base
   private
   def student_list?
     sn = self.student_number
-    p sn
-    p "ffFFFF"
+
     is_included = Student.pluck(:student_number).include?(sn)
 
     if(!is_included && self.type == "User")

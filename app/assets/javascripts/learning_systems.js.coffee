@@ -4,47 +4,6 @@
 
 jQuery ($) ->
 
-
-
-	$.show_modal = (title="Confirmation", message) ->
-		html = """
-			<div id="confirmationDialog" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog" id="confirmationDialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
-							<h4 class="modal-title">Do you want to take LMS Test?</h4>
-						</div>
-						<div class="modal-body">
-							<p>Are you sure you want to take LMS test?</p>
-						</div>
-					    <div class="modal-footer">
-					   		<a data-dismiss="modal" class="btn btn-cancel">Cancel</a>
-					   		<a data-dismiss="modal" class="btn btn-primary confirm">Ok</a>
-					    </div>
-					</div>
-				</div>
-			</div>
-
-		"""
-
-		modal = $(html).modal()
-		$(modal).find('a.btn-cancel').on 'click', -> $.remove_modal()
-		$(modal).find('a.confirm').on 'click', ->
-			alert("jjj")
-			$.ajax
-				type: "GET"
-				url: "/learning_systems"
-
-
-
-
-	$.remove_modal = () ->
-		$('.modal').remove();
-		$('.modal-backdrop').remove();
-		$('body').removeClass("modal-open");
-
-
 	$.prog_flash = (type, message, container_cls = '.page-content') ->
 		html = """
 	      <div class='alert-area container'>
@@ -57,7 +16,7 @@ jQuery ($) ->
 	      </div>
 	      """
 		$('.alert-area').remove();
-		$(html).prependTo(container_cls).fadeOut(10000);
+		$(html).prependTo(container_cls).fadeOut(100000);
 		$('body').animate({scrollTop:$(html).offset().top},500);
 
 
@@ -69,8 +28,7 @@ jQuery ($) ->
 		form = $("form##{formId}")
 		submitType = $(this).data('submit-type')
 
-		if(true)
-			#($("form ol li input[type='radio']:checked").length >= $("form .choices").length)
+		if($("form ol li input[type='radio']:checked").length >= $("form .choices").length)
 			$(e.target).addClass('disabled')
 			if submitType
 			  $('<input>').attr({
@@ -81,8 +39,34 @@ jQuery ($) ->
 
 			form.submit()
 		else
-			$.prog_flash('alert alert-danger', "You must answer all the following questions.")
+			idNum = 0
+			idNumbers = []
+			$("form ol .choices").each ()->
+				if $(this).find("input[type='radio']:checked").length <= 0
+					idNum = parseInt($(this).attr("id")) + 1
+					idNumbers.push(idNum)
+
+			$.prog_flash('alert alert-danger', "You must answer all the following questions. Please check the following item numbers " + idNumbers.join(", "))
 			e.preventDefault()
 
 	demo_modal_completed = ""
+
+	# This is for counter
+	liftoffTime = new Date($('#until2d').data("until"));
+	$('#until2d').countdown({
+		until: liftoffTime, format: "MS",
+		onExpiry: ()->
+			$.ajax
+      	type: "GET"
+      	url: "/java_questions/lock"
+      	dataType: "script"
+
+	});
+
+	# This is for login image
+	$('.login-selector input[name=for-login]').change () ->
+    val = this.value;
+    window.location.href = val
+
+
 

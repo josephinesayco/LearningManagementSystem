@@ -32,6 +32,7 @@
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  background-color: rgb(234, 251, 231);
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -64,15 +65,17 @@
     a {
       display: block;
       text-decoration: none;
-      color: #999999;
+      color: #268C49;
+      font-weight: bold;
       &:hover {
         text-decoration: none;
         color: #000;
-        background: rgba(255, 255, 255, 0.2);
+        background: #CFF7DD;
       }
       &:active, &:focus {
         text-decoration: none;
       }
+
     }
   }
   > .sidebar-brand {
@@ -80,12 +83,15 @@
     font-size: 18px;
     line-height: 60px;
     a {
-      color: #999999;
+      color: #268C49;;
       &:hover {
         color: #000;
         background: none;
       }
     }
+  }
+  > .predict {
+    background: #CFF7DD;
   }
 }
 

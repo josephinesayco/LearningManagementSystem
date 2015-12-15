@@ -1,2 +1,81 @@
-h1 Teachers#prediction_result
-p Find me in app/views/teachers/prediction_result.html.slim
+h3 Students Prediction Result
+br
+.row
+  div.col-xs-12
+    = form_for @q, url: prediction_result_teachers_path, :html => {class: "form-horizontal", role: "form", method: :get } do |f|
+
+      .form-group
+        div.col-xs-3
+          = f.label :remarks, "Remarks:"
+          = f.select :is_passed_eq, {"passed" => true, "failed" => false}.collect{|k, v| [k, v]},   html: {class:'form-control'}
+        div.col-xs-3
+          = f.label :course, "Course: "
+          = f.select :course_eq, User::COURSES_SEARCH, html: {class:'form-control'}
+        div.col-xs-2
+          = f.label :section, "Section: "
+          = f.select :section_eq, Hash[User::SECTION.collect{|v| [v, v]}], html: {class:'form-  control'}
+        div.col-xs-2
+          = f.submit "Search"
+        div.col-xs-2
+          strong
+            = "Total: #{@students.count} Students"
+
+
+
+
+
+
+table.table.table-striped
+  thead
+    tr
+      th
+        = "Student Number"
+      th
+        = "Full Name"
+      th
+        = "Gender"
+      th
+        = "Age"
+      th
+        = "Course"
+      th
+        = "Yr Level"
+      th
+        = "Section"
+      th
+        = "Schedule"
+      th
+        = "Prog 1"
+      th
+        = "Prog 2"
+      th
+        = "Prog 3"
+      th
+        = "Gen. Result"
+  tbody
+    - @students.each do |stud|
+      tr
+        td
+          = stud.student_number
+        td
+          = stud.fullname
+        td
+          = stud.gender
+        td
+          = stud.age
+        td
+          = User::COURSES.values[stud.course]
+        td
+          = stud.yr_level
+        td
+          = stud.section
+        td
+          = stud.schedule
+        td
+          = stud.prog_1
+        td
+          = stud.prog_2
+        td
+          = stud.prog_3
+        td
+          = stud.is_passed? ? "passed" : "failed"

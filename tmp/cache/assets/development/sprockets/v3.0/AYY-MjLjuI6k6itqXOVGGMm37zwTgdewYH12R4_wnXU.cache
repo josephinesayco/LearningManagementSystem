@@ -1,0 +1,93 @@
+I"º(function() {
+  jQuery(function($) {
+    var LMSModal;
+    LMSModal = function(title, content, options) {
+      if (options == null) {
+        options = {};
+      }
+      this.defaults = {
+        okText: "OK",
+        cancelText: "Cancel",
+        okButtonColorClass: "btn-primary",
+        okButtonAdditionalClasses: [],
+        cancelButtonAdditionalClasses: [],
+        dismissOnOk: true,
+        additionalModalClasses: [],
+        onInit: function(modal) {},
+        onOk: function(modal) {},
+        beforeClose: function(modal) {},
+        afterClose: function() {}
+      };
+      this.options = $.extend({}, this.defaults, options);
+      this.title = title;
+      this.content = content;
+      return this._init();
+    };
+    LMSModal.prototype = {
+      constructor: LMSModal,
+      _init: function() {
+        var template;
+        template = "<div class=\"modal fade in\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times</button>\n          <h4 class=\"modal-title\"></h4>\n      </div>\n      <div class=\"modal-body\">\n        <div class='notices'></div>\n        <p></p>\n      </div>\n      <div class=\"modal-footer\">\n        <a data-dismiss=\"modal\" class=\"btn modal-cancel\"></a>\n        <a class=\"modal-okay btn " + this.options.okButtonColorClass + " confirm onclick=\"\"></a>\n      </div>\n  </div>\n</div>";
+        this.modal = $(template).modal();
+        this._initModalElements();
+        this.options.onInit(this.modal);
+        this._attachCallbacks();
+        return this.modal;
+      },
+      _initModalElements: function() {
+        var cancelButton, modal, okButton;
+        this.titleElement = this.modal.find('.modal-title');
+        this.titleElement.text(this.title);
+        this.contentElement = this.modal.find('.modal-body p');
+        this.contentElement.html(this.content);
+        this.okButton = this.modal.find('a.modal-okay');
+        this.okButton.text(this.options.okText);
+        this.cancelButton = this.modal.find('a.modal-cancel');
+        this.cancelButton.text(this.options.cancelText);
+        if (this.options.dismissOnOk) {
+          this.okButton.attr('data-dismiss', 'modal');
+        }
+        modal = this.modal;
+        okButton = this.okButton;
+        cancelButton = this.cancelButton;
+        $.each(this.options.additionalModalClasses, function(index, klass) {
+          return modal.addClass(klass);
+        });
+        $.each(this.options.okButtonAdditionalClasses, function(index, klass) {
+          return okButton.addClass(klass);
+        });
+        return $.each(this.options.cancelButtonAdditionalClasses, function(index, klass) {
+          return cancelButton.addClass(klass);
+        });
+      },
+      _destroy: function() {
+        this.options.beforeClose(this.modal);
+        this.modal.remove();
+        $('.modal-backdrop').remove();
+        $('body').removeClass("modal-open");
+        return this.options.afterClose();
+      },
+      _onOk: function(e) {
+        return this.options.onOk(this.modal);
+      },
+      _attachCallbacks: function() {
+        this.modal.on('hidden.bs.modal', $.proxy(this._destroy, this));
+        return this.okButton.on("click", $.proxy(this._onOk, this));
+      }
+    };
+    $.lms_modal = function(title, content, options) {
+      if (title == null) {
+        title = "Java Course Recommender";
+      }
+      if (content == null) {
+        content = "";
+      }
+      if (options == null) {
+        options = {};
+      }
+      return new LMSModal(title, content, options);
+    };
+  });
+
+}).call(this);
+:ET

@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) do |u|
       u.permit(:fullname, :gender, :age, :course, :yr_level, :section, :prior_prog_lang,
        :self_assessment, :email, :password, :password_confirmation,
-       :student_number, :schedule, :prog_1, :prog_2, :prog_3, :username)
+       :student_number, :schedule, :prog_1, :prog_2, :prog_3, :username, :passed_java)
     end
     # student_number, schedule, prog_1, prog_2, prog_3, username
 
