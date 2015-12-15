@@ -57,7 +57,7 @@ gem 'activeadmin', github: 'activeadmin/activeadmin'
 # Just added
 gem "slim-rails"
 gem 'thin'
-# gem 'pg'
+gem 'pg'
 gem 'pry-rails'
 gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
